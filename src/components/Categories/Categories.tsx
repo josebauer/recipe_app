@@ -1,6 +1,6 @@
 import { Alert, Button, FlatList } from "react-native";
 import { useEffect, useState } from "react";
-
+import { router } from "expo-router";
 import Input from "../Input/Input";
 import CategoryCard from "../CategoryCard/CategoryCard";
 
@@ -104,7 +104,14 @@ export default function Categories() {
       <FlatList 
         data={categories}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <CategoryCard name={item.name} onPress={() => details(item)} onDelete={() => remove(item.id)} />}
+        renderItem={({ item }) => (
+          <CategoryCard  
+            name={item.name} 
+            onPress={() => details(item)} 
+            onDelete={() => remove(item.id)} 
+            onOpen={() => router.navigate("../CategoryDetails/" + item.id)}
+          />
+        )}
         contentContainerStyle={{gap: 10}}
       />
     </>

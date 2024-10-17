@@ -64,6 +64,15 @@ export function useCategoryDatabase() {
     }
   }
 
+  async function show(id: number) {
+    try {
+      const query = "SELECT * FROM categories WHERE id = ?"
+      const response = await database.getFirstAsync<CategoryDatabase>(query, id) 
+      return response
+    } catch (error) {
+      throw error
+    }
+  }
 
-  return { create, searchByName, update, remove }
+  return { create, searchByName, update, remove, show }
 }
