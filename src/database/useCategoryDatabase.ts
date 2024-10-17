@@ -8,14 +8,14 @@ export type CategoryDatabase = {
 export function useCategoryDatabase() {
   const database = useSQLiteContext()
 
-  async function create(data: Omit<CategoryDatabase, "id">) {
+  async function create(name: string) {
     const statement = await database.prepareAsync(
       "INSERT INTO categories (name) VALUES ($name)"
     )
 
     try { 
       const result = await statement.executeAsync({
-        $name: data.name
+        $name: name
       })
 
       const insertedRowId = result.lastInsertRowId.toLocaleString()
@@ -56,6 +56,14 @@ export function useCategoryDatabase() {
     }
   }
 
+  async function remove(id: number) {
+    try {
+      await database.execAsync("DELETE FROM categories WHERE id = " + id)
+    } catch(error) {
+      throw error
+    }
+  }
 
-  return { create, searchByName, update }
+
+  return { create, searchByName, update, remove }
 }

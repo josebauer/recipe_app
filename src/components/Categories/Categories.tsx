@@ -16,7 +16,7 @@ export default function Categories() {
 
   async function create() {
     try {
-      const response = await categoryDatabase.create({ name })
+      const response = await categoryDatabase.create(name)
       
       Alert.alert(`Categoria ${name} cadastrada com o id ${response.insertedRowId}.`)
   
@@ -25,12 +25,11 @@ export default function Categories() {
     }
   }
 
-  
   async function update() {
     try {
-      const response = await categoryDatabase.update({ id: Number(id), name })
+      await categoryDatabase.update({ id: Number(id), name })
       
-      // Alert.alert(`Categoria ${name} cadastrada com o id ${response.insertedRowId}.`)
+      Alert.alert(`Categoria atualizada para ${name}.`)
   
     } catch (error) {
       throw error
@@ -44,6 +43,33 @@ export default function Categories() {
     } catch (error) {
       throw error
     }
+  }
+
+  async function remove(id: number) {
+    Alert.alert(
+      'DELETAR',
+      'Tem certeza que deseja deletar essa categoria?',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Deletar',
+          onPress: async () => {
+            try {
+              await categoryDatabase.remove(id)
+              setId("")
+              setName("")
+              await list()
+            } catch (error) {
+              console.log(error)
+            }
+          },
+        },
+      ],
+    )
   }
 
   function details(item: CategoryDatabase) {
@@ -66,6 +92,7 @@ export default function Categories() {
   useEffect(() => {
     list()
   }, [search])
+  
   return (
     <>
       <Input placeholder="Nome da categoria" onChangeText={setName} value={name} />
@@ -77,7 +104,7 @@ export default function Categories() {
       <FlatList 
         data={categories}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <CategoryCard name={item.name} onPress={() => details(item)} />}
+        renderItem={({ item }) => <CategoryCard name={item.name} onPress={() => details(item)} onDelete={() => remove(item.id)} />}
         contentContainerStyle={{gap: 10}}
       />
     </>
