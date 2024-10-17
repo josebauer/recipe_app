@@ -1,4 +1,4 @@
-import { Alert, Button, FlatList } from "react-native";
+import { Alert, Button, FlatList, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import Input from "../Input/Input";
@@ -16,10 +16,15 @@ export default function Categories() {
 
   async function create() {
     try {
-      const response = await categoryDatabase.create(name)
-      
-      Alert.alert(`Categoria ${name} cadastrada com o id ${response.insertedRowId}.`)
-  
+
+      if (name === '') {
+        Alert.alert("Atenção", "O nome da categoria não pode estar vazio.")
+      } else {
+        const response = await categoryDatabase.create(name)
+
+        Alert.alert('Sucesso', `Categoria ${name} cadastrada com o id ${response.insertedRowId}.`)
+      }
+
     } catch (error) {
       throw error
     }
@@ -27,19 +32,21 @@ export default function Categories() {
 
   async function update() {
     try {
-      await categoryDatabase.update({ id: Number(id), name })
-      
-      Alert.alert(`Categoria atualizada para ${name}.`)
-  
+      if (name === '') {
+        Alert.alert("Atenção", "O nome da categoria não pode estar vazio.")
+      } else {
+        await categoryDatabase.update({ id: Number(id), name })
+        Alert.alert('Sucesso' ,`Categoria atualizada para ${name}.`)
+      }
     } catch (error) {
       throw error
     }
   }
-  
+
   async function list() {
     try {
-      const response = await categoryDatabase.searchByName(search)     
-      setCategories(response) 
+      const response = await categoryDatabase.searchByName(search)
+      setCategories(response)
     } catch (error) {
       throw error
     }
@@ -47,12 +54,12 @@ export default function Categories() {
 
   async function remove(id: number) {
     Alert.alert(
-      'DELETAR',
+      'Atenção',
       'Tem certeza que deseja deletar essa categoria?',
       [
         {
           text: 'Cancelar',
-          onPress: () => {},
+          onPress: () => { },
           style: 'cancel',
         },
         {
@@ -78,7 +85,7 @@ export default function Categories() {
   }
 
   async function handleSave() {
-    if(id) {
+    if (id) {
       update()
     } else {
       create()
@@ -92,27 +99,32 @@ export default function Categories() {
   useEffect(() => {
     list()
   }, [search])
-  
+
   return (
     <>
       <Input placeholder="Nome da categoria" onChangeText={setName} value={name} />
-      
+
       <Button title={id ? 'Salvar Categoria' : 'Adicionar Categoria'} onPress={handleSave} />
 
       <Input placeholder="Pesquisar" onChangeText={setSearch} />
 
-      <FlatList 
+      <FlatList
         data={categories}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
-          <CategoryCard  
-            name={item.name} 
-            onPress={() => details(item)} 
-            onDelete={() => remove(item.id)} 
+          <CategoryCard
+            name={item.name}
+            onPress={() => details(item)}
+            onDelete={() => remove(item.id)}
             onOpen={() => router.navigate("../CategoryDetails/" + item.id)}
           />
         )}
-        contentContainerStyle={{gap: 10}}
+        ListEmptyComponent={() => (
+          <View style={{ padding: 20, alignItems: 'center' }}>
+            <Text>Não há categorias cadastradas.</Text>
+          </View>
+        )}
+        contentContainerStyle={{ gap: 10 }}
       />
     </>
   )
