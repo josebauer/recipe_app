@@ -39,5 +39,23 @@ export function useCategoryDatabase() {
     }
   }
 
-  return { create, searchByName }
+  async function update(data: CategoryDatabase) {
+    const statement = await database.prepareAsync(
+      "UPDATE categories SET name = $name WHERE id = $id"
+    )
+
+    try { 
+      await statement.executeAsync({
+        $id: data.id,
+        $name: data.name
+      })
+    } catch (error) {
+      throw error
+    } finally {
+      await statement.finalizeAsync()
+    }
+  }
+
+
+  return { create, searchByName, update }
 }

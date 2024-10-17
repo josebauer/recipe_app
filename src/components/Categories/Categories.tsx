@@ -18,16 +18,25 @@ export default function Categories() {
     try {
       const response = await categoryDatabase.create({ name })
       
-      list()
-      
       Alert.alert(`Categoria ${name} cadastrada com o id ${response.insertedRowId}.`)
   
-      setName("") 
     } catch (error) {
       throw error
     }
   }
 
+  
+  async function update() {
+    try {
+      const response = await categoryDatabase.update({ id: Number(id), name })
+      
+      // Alert.alert(`Categoria ${name} cadastrada com o id ${response.insertedRowId}.`)
+  
+    } catch (error) {
+      throw error
+    }
+  }
+  
   async function list() {
     try {
       const response = await categoryDatabase.searchByName(search)     
@@ -37,6 +46,23 @@ export default function Categories() {
     }
   }
 
+  function details(item: CategoryDatabase) {
+    setId(String(item.id))
+    setName(item.name)
+  }
+
+  async function handleSave() {
+    if(id) {
+      update()
+    } else {
+      create()
+    }
+
+    setId("")
+    setName("")
+    await list()
+  }
+
   useEffect(() => {
     list()
   }, [search])
@@ -44,14 +70,14 @@ export default function Categories() {
     <>
       <Input placeholder="Nome da categoria" onChangeText={setName} value={name} />
       
-      <Button title="Adicionar categoria" onPress={create} />
+      <Button title={id ? 'Salvar Categoria' : 'Adicionar Categoria'} onPress={handleSave} />
 
       <Input placeholder="Pesquisar" onChangeText={setSearch} />
 
       <FlatList 
         data={categories}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <CategoryCard name={item.name} />}
+        renderItem={({ item }) => <CategoryCard name={item.name} onPress={() => details(item)} />}
         contentContainerStyle={{gap: 10}}
       />
     </>
