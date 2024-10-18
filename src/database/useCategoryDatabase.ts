@@ -74,5 +74,15 @@ export function useCategoryDatabase() {
     }
   }
 
-  return { create, searchByName, update, remove, show }
+  async function getAllCategories(): Promise<CategoryDatabase[]> {
+    try {
+      const query = "SELECT * FROM categories";
+      const response = await database.getAllAsync<CategoryDatabase>(query);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  return { create, searchByName, update, remove, show, getAllCategories }
 }

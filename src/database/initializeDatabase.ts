@@ -29,7 +29,7 @@ export async function initializeDatabase(database: SQLiteDatabase) {
   await database.execAsync(`
     CREATE TABLE IF NOT EXISTS measures (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      unit TEXT NOT NULL
+      unit TEXT NOT NULL UNIQUE
     );
   `)
 
