@@ -104,7 +104,7 @@ export default function Categories() {
     <>
       <Input placeholder="Nome da categoria" onChangeText={setName} value={name} />
 
-      <Button title={id ? 'Salvar Categoria' : 'Adicionar Categoria'} onPress={handleSave} />
+      <Button title={id ? 'Salvar Categoria' : '+ Adicionar Categoria'} onPress={handleSave} />
 
       <Input placeholder="Pesquisar" onChangeText={setSearch} />
 
