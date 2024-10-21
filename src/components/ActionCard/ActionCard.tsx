@@ -1,5 +1,5 @@
 import { Pressable, PressableProps, Text, TouchableOpacity } from "react-native";
-import styles from "./CategoryCardStyles"
+import styles from "./ActionCardStyles"
 import { MaterialIcons } from "@expo/vector-icons"
 
 type Props = PressableProps & {
@@ -8,7 +8,7 @@ type Props = PressableProps & {
   onEdit: () => void
 }
 
-export default function CategoryCard({ name, onDelete, onEdit, ...rest }: Props) {
+export default function ActionCard({ name, onDelete, onEdit, ...rest }: Props) {
   return (
     <Pressable style={styles.pressable} {...rest}>
       <Text style={styles.text}>

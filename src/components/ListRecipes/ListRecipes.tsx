@@ -1,7 +1,9 @@
 import { Recipe, useRecipeDatabase } from "@/database/useRecipeDatabase"
 import { useEffect, useState } from "react"
-import { FlatList, Text, View } from "react-native"
+import { Alert, FlatList, Text, View } from "react-native"
 import Input from "../Input/Input"
+import { router } from "expo-router"
+import ActionCard from "../ActionCard/ActionCard"
 
 type RecipeWithCategory = Recipe & { categoryName: string }
 
@@ -10,11 +12,11 @@ export default function ListRecipes() {
   const [groupedRecipes, setGroupedRecipes] = useState<{ [key: string]: RecipeWithCategory[] }>({});
   const [search, setSearch] = useState("");
 
-  const recipeDatabse = useRecipeDatabase()
+  const recipeDatabase = useRecipeDatabase()
 
   async function list() {
     try {
-      const response = await recipeDatabse.searchRecipeByName(search)
+      const response = await recipeDatabase.searchRecipeByName(search)
       setRecipes(response)
 
       const grouped = response.reduce((acc: { [key: string]: RecipeWithCategory[] }, recipe) => {
@@ -32,6 +34,31 @@ export default function ListRecipes() {
     }
   }
 
+  async function remove(id: number) {
+    Alert.alert(
+      'Atenção',
+      'Tem certeza que deseja deletar essa receita?',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => { },
+          style: 'cancel',
+        },
+        {
+          text: 'Deletar',
+          onPress: async () => {
+            try {
+              await recipeDatabase.remove(id)
+              await list()
+            } catch (error) {
+              console.log(error)
+            }
+          },
+        },
+      ],
+    )
+  }
+
   useEffect(() => {
     list()
   }, [search])
@@ -46,7 +73,12 @@ export default function ListRecipes() {
           <View style={{ marginBottom: 20 }}>
             <Text style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}>{category}</Text>
             {groupedRecipes[category].map((recipe) => (
-              <Text key={recipe.id} style={{ paddingLeft: 10 }}>{recipe.name}</Text>
+              <ActionCard
+                name={recipe.name}
+                onPress={() => router.navigate("/RecipeDetails/" + recipe.id)}
+                onDelete={() => remove(recipe.id)}
+                onEdit={() => router.navigate("/Recipes/RecipeManagement")}
+              />
             ))}
           </View>
         )}

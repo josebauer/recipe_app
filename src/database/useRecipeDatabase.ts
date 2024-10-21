@@ -137,5 +137,71 @@ export function useRecipeDatabase() {
     }
   }
 
-  return { create, getAllMeasures, searchRecipeByName }
+  async function remove(id: number) {
+    try {
+      await database.execAsync("DELETE FROM recipes WHERE id = " + id)
+    } catch(error) {
+      throw error
+    }
+  }
+
+  async function getRecipeDetails(recipeId: number) {
+    try {
+      const query = `
+        SELECT
+          recipes.id as recipeId,
+          recipes.name as recipeName,
+          recipes.description,
+          recipes.instructions,
+          recipes.category_id as categoryId,
+          categories.name as categoryName,
+          recipe_ingredients.quantity,
+          measures.unit as measureUnit,
+          ingredients.name as ingredientName
+        FROM recipes
+        LEFT JOIN categories ON recipes.category_id = categories.id
+        LEFT JOIN recipe_ingredients ON recipes.id = recipe_ingredients.recipe_id
+        LEFT JOIN ingredients ON recipe_ingredients.ingredient_id = ingredients.id
+        LEFT JOIN measures ON recipe_ingredients.measure_id = measures.id
+        WHERE recipes.id = ?
+      `;
+      
+      const response = await database.getAllAsync<{
+        recipeId: number;
+        recipeName: string;
+        description: string;
+        instructions: string;
+        categoryId: number;
+        categoryName: string;
+        quantity: number;
+        measureUnit: string;
+        ingredientName: string;
+      }>(query, recipeId);
+  
+      if (response.length === 0) {
+        throw new Error("Receita não encontrada");
+      }
+  
+      // Organizar as informações em um formato mais fácil de usar:
+      const recipeDetails = {
+        id: response[0].recipeId,
+        name: response[0].recipeName,
+        description: response[0].description,
+        instructions: response[0].instructions,
+        categoryId: response[0].categoryId,
+        categoryName: response[0].categoryName,
+        ingredients: response.map(item => ({
+          name: item.ingredientName,
+          quantity: item.quantity,
+          measure: item.measureUnit,
+        })),
+      };
+  
+      return recipeDetails;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  return { create, getAllMeasures, searchRecipeByName, remove, getRecipeDetails }
 }
