@@ -121,5 +121,21 @@ export function useRecipeDatabase() {
     }
   }
 
-  return { create, getAllMeasures }
+  async function searchRecipeByName(name: string) {
+    try {
+      const query = `
+        SELECT recipes.*, categories.name as categoryName
+        FROM recipes
+        JOIN categories ON recipes.category_id = categories.id
+        WHERE recipes.name LIKE ?
+        ORDER BY categories.name, recipes.name
+      `;
+      const response = await database.getAllAsync<Recipe & { categoryName: string }>(query, `%${name}%`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  return { create, getAllMeasures, searchRecipeByName }
 }
