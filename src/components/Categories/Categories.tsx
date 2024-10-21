@@ -114,9 +114,9 @@ export default function Categories() {
         renderItem={({ item }) => (
           <CategoryCard
             name={item.name}
-            onPress={() => details(item)}
+            onPress={() => router.navigate("../CategoryDetails/" + item.id)}
             onDelete={() => remove(item.id)}
-            onOpen={() => router.navigate("../CategoryDetails/" + item.id)}
+            onEdit={() => details(item)}
           />
         )}
         ListEmptyComponent={() => (
