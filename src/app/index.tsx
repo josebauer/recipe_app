@@ -1,8 +1,8 @@
 import { Button, Text, View } from "react-native";
-import styles from "./HomePageStyles"
+import styles from "./indexStyles"
 import { router } from "expo-router";
 
-export default function HomePage() {
+export default function HomeScreen() {
   return (
     <View style={styles.view}>
       <Text style={styles.title}>Receitas na mão</Text>
