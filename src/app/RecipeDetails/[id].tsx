@@ -1,7 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { useState, useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { useCategoryDatabase } from "@/database/useCategoryDatabase";
 import { useRecipeDatabase } from "@/database/useRecipeDatabase";
 import styles from "./RecipeDetailsStyles";
 

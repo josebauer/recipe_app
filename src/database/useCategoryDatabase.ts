@@ -84,5 +84,15 @@ export function useCategoryDatabase() {
     }
   }
 
-  return { create, searchByName, update, remove, show, getAllCategories }
+  async function hasRecipesAssociated(categoryId: number): Promise<boolean> {
+    try {
+      const query = "SELECT COUNT(*) as count FROM recipes WHERE category_id = ?";
+      const result = await database.getFirstAsync<{ count: number }>(query, categoryId);
+      return result?.count! > 0;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  return { create, searchByName, update, remove, show, getAllCategories, hasRecipesAssociated }
 }

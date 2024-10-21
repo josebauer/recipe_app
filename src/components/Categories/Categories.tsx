@@ -36,7 +36,7 @@ export default function Categories() {
         Alert.alert("Atenção", "O nome da categoria não pode estar vazio.")
       } else {
         await categoryDatabase.update({ id: Number(id), name })
-        Alert.alert('Sucesso' ,`Categoria atualizada para ${name}.`)
+        Alert.alert('Sucesso', `Categoria atualizada para ${name}.`)
       }
     } catch (error) {
       throw error
@@ -66,6 +66,12 @@ export default function Categories() {
           text: 'Deletar',
           onPress: async () => {
             try {
+              const hasRecipes = await categoryDatabase.hasRecipesAssociated(id);
+              if (hasRecipes) {
+                Alert.alert("Erro", "Não é possível excluir uma categoria que possui receitas cadastradas.")
+                return
+              }
+
               await categoryDatabase.remove(id)
               setId("")
               setName("")
