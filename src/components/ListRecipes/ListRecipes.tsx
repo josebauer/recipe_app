@@ -70,14 +70,15 @@ export default function ListRecipes() {
         data={Object.keys(groupedRecipes)}
         keyExtractor={(item) => item}
         renderItem={({ item: category }) => (
-          <View style={{ marginBottom: 20 }}>
+          <View style={{ marginBottom: 20, gap: 10 }}>
             <Text style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}>{category}</Text>
             {groupedRecipes[category].map((recipe) => (
               <ActionCard
+                key={recipe.id}
                 name={recipe.name}
-                onPress={() => router.navigate("/RecipeDetails/" + recipe.id)}
+                onPress={() => router.navigate(`/RecipeDetails/${recipe.id}`)}
                 onDelete={() => remove(recipe.id)}
-                onEdit={() => router.navigate("/Recipes/RecipeManagement")}
+                onEdit={() => router.navigate(`/Recipes/RecipeManagement?recipeId=${recipe.id}`)}
               />
             ))}
           </View>
