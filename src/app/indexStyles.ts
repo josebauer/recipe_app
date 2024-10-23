@@ -9,11 +9,11 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    fontFamily: "Pattaya",
     textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 24,
-    paddingBottom: 24,
-    paddingTop: 32
+    color: "#ad0000",
+    fontSize: 36,
+    paddingBottom: 24
   }
 });
 

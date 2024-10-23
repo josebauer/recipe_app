@@ -9,7 +9,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 
 import Input from "@/components/Input/Input";
 import TextArea from "@/components/TextArea/TextArea";
-import styles from "../indexStyles";
+import styles from "./RecipeManagementStyles";
 
 type Ingredient = {
   name: string;
@@ -172,12 +172,12 @@ export default function RecipeManagement() {
 
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 20, gap: 16 }}>
-      <Text style={styles.title}>{id? "Editar receita" : "Adicionar Receita"}</Text>
+      <Text style={styles.title}>{id? "Editar Receita" : "Adicionar Receita"}</Text>
       <Input placeholder="Nome da receita" onChangeText={setName} value={name} />
       <Picker
         selectedValue={categoryId}
         onValueChange={(itemValue) => setCategoryId(itemValue)}
-        style={{ backgroundColor: "#ad0000", color: "#FFF" }}
+        style={{ backgroundColor: "#ffa500", color: "#FFF" }}
         dropdownIconColor="#FFF"
       >
         <Picker.Item label="Selecione uma categoria" value={null} />
@@ -196,7 +196,7 @@ export default function RecipeManagement() {
       <Picker
         selectedValue={measure}
         onValueChange={(itemValue) => setMeasure(itemValue as string)}
-        style={{ backgroundColor: "#ad0000", color: "#FFF" }}
+        style={{ backgroundColor: "#ffa500", color: "#FFF" }}
         dropdownIconColor="#FFF"
       >
         <Picker.Item label="Unidade de medida" value="" />
@@ -214,18 +214,18 @@ export default function RecipeManagement() {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                backgroundColor: "#cedaf5",
+                backgroundColor: "#ad0000",
                 borderRadius: 10,
                 padding: 24,
                 gap: 10
               }}
             >
-              <Text style={{ flex: 1 }}>{`${item.quantity} ${item.measure} de ${item.name}`}</Text>
+              <Text style={{ flex: 1, color: "#FFF" }}>{`${item.quantity} ${item.measure} de ${item.name}`}</Text>
               <TouchableOpacity onPress={() => removeIngredient(index)}>
-                <MaterialIcons name="delete" size={24} color="red" />
+                <MaterialIcons name="delete" size={24} color="#FFF" />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => editIngredient(index)}>
-                <MaterialIcons name="edit" size={24} color="blue" />
+                <MaterialIcons name="edit" size={24} color="#FFF" />
               </TouchableOpacity>
             </Pressable>
           ))

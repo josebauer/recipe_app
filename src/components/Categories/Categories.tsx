@@ -120,7 +120,7 @@ export default function Categories() {
         renderItem={({ item }) => (
           <ActionCard
             name={item.name}
-            onPress={() => router.navigate("../CategoryDetails/" + item.id)}
+            onPress={() => router.navigate(`../CategoryDetails/${item.id}`)}
             onDelete={() => remove(item.id)}
             onEdit={() => details(item)}
           />

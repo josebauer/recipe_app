@@ -15,10 +15,10 @@ export default function ActionCard({ name, onDelete, onEdit, ...rest }: Props) {
         {name}
       </Text>
       <TouchableOpacity onPress={onDelete}>
-        <MaterialIcons name="delete" size={24} color="red" />
+        <MaterialIcons name="delete" size={24} color="#FFF" />
       </TouchableOpacity>
       <TouchableOpacity onPress={onEdit}>
-        <MaterialIcons name="edit" size={24} color="blue" />
+        <MaterialIcons name="edit" size={24} color="#FFF" />
       </TouchableOpacity>
     </Pressable>
   )

@@ -4,15 +4,16 @@ const styles = StyleSheet.create({
   pressable: {
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "#cedaf5",
+    backgroundColor: "#ad0000",
     borderRadius: 10,
     padding: 24,
     gap: 10
   },
 
   text: {
-    color: "#383838",
+    color: "#FFF",
     fontWeight: "bold",
+    fontStyle: "italic",
     flex: 1
   }
 });

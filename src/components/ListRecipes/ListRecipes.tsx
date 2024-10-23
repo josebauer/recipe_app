@@ -71,7 +71,7 @@ export default function ListRecipes() {
         keyExtractor={(item) => item}
         renderItem={({ item: category }) => (
           <View style={{ marginBottom: 20, gap: 10 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}>{category}</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10, fontStyle: "italic" }}>{category}</Text>
             {groupedRecipes[category].map((recipe) => (
               <ActionCard
                 key={recipe.id}

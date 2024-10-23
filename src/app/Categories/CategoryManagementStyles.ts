@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
 
   title: {
     textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 18,
+    fontFamily: "Pattaya",
+    fontSize: 24,
     paddingBottom: 24,
     paddingTop: 32
   }

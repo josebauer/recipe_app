@@ -10,10 +10,10 @@ const styles = StyleSheet.create({
 
   title: {
     textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 18,
-    padding: 32,
-    marginTop: 12
+    fontFamily: "Pattaya",
+    fontSize: 32,
+    marginBottom: 24,
+    marginTop: 40
   }
 });
 
