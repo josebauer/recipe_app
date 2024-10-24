@@ -20,7 +20,6 @@ export type Ingredient = {
 export default function RecipeManagement() {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
   const [ingredientName, setIngredientName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [measure, setMeasure] = useState("");
@@ -60,7 +59,6 @@ export default function RecipeManagement() {
       await recipeDatabase.create(
         {
           name,
-          description,
           instructions,
           categoryId: Number(categoryId),
         },
@@ -122,7 +120,6 @@ export default function RecipeManagement() {
       {
         id: Number(id),
         name,
-        description,
         instructions,
         categoryId: Number(categoryId),
       },
@@ -136,7 +133,6 @@ export default function RecipeManagement() {
       const recipeDetails = await recipeDatabase.getRecipeDetails(recipeId);
       setId(recipeDetails.id.toString());
       setName(recipeDetails.name);
-      setDescription(recipeDetails.description);
       setInstructions(recipeDetails.instructions);
       setCategoryId(recipeDetails.categoryId.toString());
       setIngredients(recipeDetails.ingredients);
@@ -147,7 +143,7 @@ export default function RecipeManagement() {
 
   async function save() {
     try {
-      if (!name || !categoryId || ingredients.length === 0) {
+      if (!name || !categoryId || !instructions || ingredients.length === 0) {
         Alert.alert("Atenção", "Preencha todos os campos obrigatórios e adicione pelo menos um ingrediente.");
         return;
       }
@@ -159,7 +155,6 @@ export default function RecipeManagement() {
       }
 
       setName("");
-      setDescription("");
       setInstructions("");
       setCategoryId("");
       setIngredients([]);
@@ -185,13 +180,7 @@ export default function RecipeManagement() {
           <Picker.Item key={category.id} label={category.name} value={category.id} />
         ))}
       </Picker>
-      <TextArea 
-        placeholder="Descrição da receita"
-        onChangeText={setDescription}
-        value={description}
-      />
       <Text style={{ fontWeight: "bold" }}>Ingredientes:</Text>
-      <Input placeholder="Nome do Ingrediente" onChangeText={setIngredientName} value={ingredientName} />
       <Input placeholder="Quantidade" onChangeText={setQuantity} value={quantity} keyboardType="numeric" />
       <Picker
         selectedValue={measure}
@@ -204,6 +193,7 @@ export default function RecipeManagement() {
           <Picker.Item key={measure.id} label={measure.unit} value={measure.unit} />
         ))}
       </Picker>
+      <Input placeholder="Nome do Ingrediente" onChangeText={setIngredientName} value={ingredientName} />
       <Button title={editingIndex !== null ?  "Salvar Ingrediente" : "+ Adicionar Ingrediente" } onPress={addIngredient} />
 
       <View style={{gap: 10}}>

@@ -3,7 +3,6 @@ import { useSQLiteContext } from "expo-sqlite";
 export type Recipe = {
   id: number;
   name: string;
-  description: string;
   instructions: string;
   categoryId: number;
 };
@@ -34,13 +33,12 @@ export function useRecipeDatabase() {
     ingredients: { name: string; quantity: number; measure: string }[]
   ) {
     const statement = await database.prepareAsync(
-      "INSERT INTO recipes (name, description, instructions, category_id) VALUES ($name, $description, $instructions, $categoryId)"
+      "INSERT INTO recipes (name, instructions, category_id) VALUES ($name, $instructions, $categoryId)"
     );
 
     try {
       const result = await statement.executeAsync({
         $name: recipe.name,
-        $description: recipe.description,
         $instructions: recipe.instructions,
         $categoryId: recipe.categoryId,
       });
@@ -161,7 +159,6 @@ export function useRecipeDatabase() {
         SELECT
           recipes.id as recipeId,
           recipes.name as recipeName,
-          recipes.description,
           recipes.instructions,
           recipes.category_id as categoryId,
           categories.name as categoryName,
@@ -179,7 +176,6 @@ export function useRecipeDatabase() {
       const response = await database.getAllAsync<{
         recipeId: number;
         recipeName: string;
-        description: string;
         instructions: string;
         categoryId: number;
         categoryName: string;
@@ -196,7 +192,6 @@ export function useRecipeDatabase() {
       const recipeDetails = {
         id: response[0].recipeId,
         name: response[0].recipeName,
-        description: response[0].description,
         instructions: response[0].instructions,
         categoryId: response[0].categoryId,
         categoryName: response[0].categoryName,
@@ -218,14 +213,13 @@ export function useRecipeDatabase() {
     ingredients: { name: string; quantity: number; measure: string }[]
   ) {
     const statement = await database.prepareAsync(
-      "UPDATE recipes SET name = $name, description = $description, instructions = $instructions, category_id = $categoryId WHERE id = $id"
+      "UPDATE recipes SET name = $name, instructions = $instructions, category_id = $categoryId WHERE id = $id"
     );
 
     try {
       await statement.executeAsync({
         $id: recipe.id,
         $name: recipe.name,
-        $description: recipe.description,
         $instructions: recipe.instructions,
         $categoryId: recipe.categoryId,
       });

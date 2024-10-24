@@ -12,9 +12,8 @@ export async function initializeDatabase(database: SQLiteDatabase) {
     CREATE TABLE IF NOT EXISTS recipes (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
-      description TEXT,
-      instructions TEXT,
-      category_id INTEGER,
+      instructions TEXT NOT NULL,
+      category_id INTEGER NOT NULL,
       FOREIGN KEY (category_id) REFERENCES categories(id)
     );  
   `)
@@ -34,17 +33,18 @@ export async function initializeDatabase(database: SQLiteDatabase) {
   `)
 
   const defaultMeasures = [
-    "xícaras",
+    "xícara(s)",
+    "copo(s)",
+    "colher(es) de chá",
+    "colher(es) de sobremesa",
+    "colher(es) de sopa",
+    "unidade(s)",
     "ml",
-    "litros",
-    "kg",
     "gramas",
-    "unidade",
-    "colheres de sopa",
-    "colheres de chá",
-    "pacote",
-    "pedaço",
-    "caixinha"
+    "kg",
+    "litro(s)",
+    "caixinha(s)",
+    "fatia(s)"
   ]
 
   for (const unit of defaultMeasures) {

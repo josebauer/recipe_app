@@ -10,7 +10,6 @@ import Input from "@/components/Input/Input";
 export default function RecipeDetails() {
   const [recipe, setRecipe] = useState<null | {
     name: string;
-    description: string;
     instructions: string;
     categoryName: string;
     ingredients: { name: string; quantity: number; measure: string }[];
@@ -54,7 +53,6 @@ export default function RecipeDetails() {
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 40, gap: 12 }}>
       <Text style={styles.title}>{recipe.name}</Text>
       <Text style={{ fontStyle: "italic" }}>Categoria: {recipe.categoryName}</Text>
-      <Text style={{ marginTop: 10 }}>{recipe.description}</Text>
       <Text style={styles.subtitle}>Ingredientes:</Text>
       {adjustedIngredients.map((ingredient, index) => (
         <Text key={index}>

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   textInput: {
-    height: 100,
+    height: 150,
     textAlignVertical: 'top',
     borderColor: '#c9c9c9',
     borderRadius: 5,
