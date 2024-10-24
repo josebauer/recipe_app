@@ -23,6 +23,7 @@
 - Adicionar, editar e remover receitas e categorias.
 - Categorizar as receitas.
 - Pesquisar receitas e categorias cadastradas
+- Ajuste automático de ingredientes
 
 ## 💻 Tecnologias Utilizadas
 - JavaScript / TypeScript
