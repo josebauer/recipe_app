@@ -11,7 +11,7 @@ import Input from "@/components/Input/Input";
 import TextArea from "@/components/TextArea/TextArea";
 import styles from "./RecipeManagementStyles";
 
-type Ingredient = {
+export type Ingredient = {
   name: string;
   quantity: number;
   measure: string;
