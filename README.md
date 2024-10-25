@@ -6,7 +6,7 @@
 
 1. Clone o repositório
   ```bash
-  git@github.com:josebauer/recipe_app.git
+  git clone git@github.com:josebauer/recipe_app.git
   ```
 
 2. Instale as dependências do app:
